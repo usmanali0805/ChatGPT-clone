@@ -1,7 +1,7 @@
 import { PanelLeftDashed, Search, CirclePlay , LayoutGrid } from 'lucide-react';
-import chatgpt from "../src/assets/chatgpt.svg";
-import new_chat from "../src/assets/new_chat.svg";
-import library from "../src/assets/library.svg";
+import chatgpt from "../src/assets/svg/chatgpt.svg";
+import new_chat from "../src/assets/svg/new_chat.svg";
+import library from "../src/assets/svg/library.svg";
 
 const Sidebar = () => {
   return (
@@ -42,7 +42,7 @@ const Sidebar = () => {
           </div>
         </div>
         <h2 className='text-gray-400 p-2 text-[13px]'>Chats</h2>
-        <section className='text-[12px] w-full h-fit p-2 '>Chats history</section>
+        <section className='text-[12px] w-full h-fit p-2 '> Abhi to filhal nhi hy</section>
       </section>
     </section>
   )
