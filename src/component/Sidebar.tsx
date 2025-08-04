@@ -1,7 +1,7 @@
 import { PanelLeftDashed, Search, CirclePlay , LayoutGrid } from 'lucide-react';
-import chatgpt from "../src/assets/svg/chatgpt.svg";
-import new_chat from "../src/assets/svg/new_chat.svg";
-import library from "../src/assets/svg/library.svg";
+import chatgpt from "../assets/svg/chatgpt.svg";
+import new_chat from "../assets/svg/new_chat.svg";
+import library from "../assets/svg/library.svg";
 
 const Sidebar = () => {
   return (

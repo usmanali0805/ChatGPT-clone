@@ -1,5 +1,5 @@
 import { MessageCircleDashed, ChevronDownIcon } from 'lucide-react';
-import plus from "../src/assets/svg/plus.svg"
+import plus from "../assets/svg/plus.svg"
 
 
 const Navbar = () => {
