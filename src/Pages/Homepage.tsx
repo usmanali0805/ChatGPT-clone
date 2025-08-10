@@ -2,22 +2,23 @@ import { ArrowUp, Plus } from 'lucide-react'
 import Navbar from '../component/Navbar'
 import setting from '../assets/svg/setting.svg'
 import mic from '../assets/svg/mic.svg'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import Message from '../component/Message'
 
 const Homepage = () => {
   const [input, setInput] = useState("");
   const [inptbtn, setInptbtn] = useState(false)
   const [answer, setAnswer] = useState("")
-  const [Chat, setChat] = useState([{ role: "chatbot", text: "How can we help you today?" },])
+  const [chat, setChat] = useState([])
   const Handleinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
   }
-  const apiKey:string = "AIzaSyA4yQ0DdXgt-JEvzlEMtLwJHKzNqttR9PU";
+  const apiKey: string = "AIzaSyA4yQ0DdXgt-JEvzlEMtLwJHKzNqttR9PU";
   interface GeminiResponce {
-    candidates?:{
-      content?:{
-        parts?:{
-          text?:string;
+    candidates?: {
+      content?: {
+        parts?: {
+          text?: string;
         }
       }
     }
@@ -34,31 +35,30 @@ const Homepage = () => {
     ]
   }
 
-  const Getrespose = async ():Promise<void>  => {
-    try{
-      const response = await fetch ("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
-       {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "X-goog-api-key":apiKey
-        },
-        body:JSON.stringify(body)
-       }
+  const Getrespose = async (): Promise<void> => {
+    try {
+      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-goog-api-key": apiKey
+          },
+          body: JSON.stringify(body)
+        }
       );
 
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error(`HTTP error! status:${response.status}`);
       }
-        const data:GeminiResponce = await response.json();
-        
+      const data: GeminiResponce = await response.json();
+      if (data) {
+        const aiText = data.candidates[0].content.parts[0].text;
+        setAnswer(aiText)
+        setChat((prev) => [...prev, { role: "chatbot", text: answer }]);
+      }
 
-        if(data){
-           const aiText = data.candidates[0].content.parts[0].text;
-           setAnswer(aiText)
-        }
-
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
@@ -66,17 +66,16 @@ const Homepage = () => {
   const SendAsk = () => {
     if (input) {
       setChat((prev) => [...prev, { role: "user", text: input }]);
-      console.log("object")
       setInptbtn(true)
       Getrespose()
+      setInput("")
     }
   }
-  
-  console.log(answer)
+
   return (
     <section className='w-[82vw] h-screen relative bg-[#212121]'>
       <Navbar />
-      {inptbtn==false&& <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
+      {inptbtn == false && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
         <h1 className='text-[30px]'>What can I help with?</h1>
         <div className='w-[65%] h-[95px] p-3 rounded-3xl bg-[#353535]'>
           <label className='flex flex-col justify-between h-full items-center' htmlFor="input_id">
@@ -95,27 +94,26 @@ const Homepage = () => {
                 <p className=' p-1 rounded-full hover:bg-[#4e4e4e]'>
                   <img className='w-[18px] ' src={mic} alt="" />
                 </p>
-                <p onClick={SendAsk} className='p-2 rounded-full bg-[#636363]'>
+                <button type='submit' onClick={SendAsk} className='p-2 rounded-full bg-[#636363]'>
                   <ArrowUp className='w-[20px] h-[20px]' />
-                </p>
+                </button>
               </span>
             </div>
           </label>
         </div>
 
-      </div> }
-      {inptbtn==true&& <section className=' w-full h-full flex items-center justify-center'>
-        <div className='w-[65%] relative h-full mt-[120px]'>
-          <div className="h-fit w-full relative flex flex-col gap-3">
-            <div className='w-full flex justify-end '>
-              <span className='text-[14px] w-[60%] h-fit bg-[#343434]'>{input}</span>
-            </div>
-            <div className='w-full flex justify-start '>
-              <span className='text-[15px] w-[90%] h-fit '>{answer}</span>
-            </div>
+      </div>}
 
+      {inptbtn == true && <section className=' w-full h-screen flex flex-col items-center justify-center'>
+        <div className='w-full relative flex  justify-center h-[85%]  p-[10px] overflow-y-scroll mt-[50px]'>
+          <div className="h-fit w-[65%]  relative flex flex-col gap-3">
+            {chat.map((Msg, index) => (
+              <Message msg={Msg} key={index} />
+            ))}
           </div>
-          <div className='flex flex-col w-full absolute left-0 bottom-0 items-center justify-center'>
+        </div>
+        <div className='w-full flex justify-center h-[15%] bottom-0 bg-[#212121]'>
+          <div className='flex flex-col w-[65%] items-center justify-center'>
             <div className='w-full flex flex-col h-[95px] p-3 rounded-3xl bg-[#353535]'>
               <label className='flex flex-col justify-between h-full items-center' htmlFor="input_id">
                 <input id="input_id" value={input} onChange={Handleinput} className='w-full text-[15px] focus-visible:outline-none' type="text" placeholder='Ask anything' />
@@ -133,9 +131,9 @@ const Homepage = () => {
                     <p className=' p-1 rounded-full hover:bg-[#4e4e4e]'>
                       <img className='w-[18px] ' src={mic} alt="" />
                     </p>
-                    <p onClick={SendAsk} className='p-2 rounded-full cursor-pointer bg-[#636363]'>
+                    <button type='submit' onClick={SendAsk} className={`p-2 rounded-full cursor-pointer bg-[#636363] ${input.length>0 ? "hover:bg-zinc-500":""}`}>
                       <ArrowUp className='w-[20px] h-[20px]' />
-                    </p>
+                    </button>
                   </span>
                 </div>
               </label>
