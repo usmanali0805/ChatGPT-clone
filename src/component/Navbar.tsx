@@ -14,7 +14,6 @@ const Navbar = () => {
         <p className='text-[14px]'>Get Plus</p>
       </span>
       <p className='p-1 rounded-full hover:bg-[#3d3d3d]'>
-
       <MessageCircleDashed className='text-white cursor-pointer w-[20px] h-[20px]' />
       </p>
     </div>

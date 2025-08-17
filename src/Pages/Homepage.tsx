@@ -2,13 +2,14 @@ import { ArrowUp, Plus } from 'lucide-react'
 import Navbar from '../component/Navbar'
 import setting from '../assets/svg/setting.svg'
 import mic from '../assets/svg/mic.svg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Message from '../component/Message'
 
 const Homepage = () => {
   const [input, setInput] = useState("");
   const [inptbtn, setInptbtn] = useState(false)
   const [answer, setAnswer] = useState("")
+  const [question, setQuestion] = useState([])
   const [chat, setChat] = useState([])
   const Handleinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
@@ -35,6 +36,7 @@ const Homepage = () => {
     ]
   }
 
+  
   const Getrespose = async (): Promise<void> => {
     try {
       const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
@@ -55,14 +57,15 @@ const Homepage = () => {
       if (data) {
         const aiText = data.candidates[0].content.parts[0].text;
         setAnswer(aiText)
-        setChat((prev) => [...prev, { role: "chatbot", text: answer }]);
+        console.log(aiText)
+        setChat((prev) => [...prev, { role: "chatbot", text: aiText }]);
       }
 
     } catch (error) {
       console.log(error)
     }
   }
-
+  
   const SendAsk = () => {
     if (input) {
       setChat((prev) => [...prev, { role: "user", text: input }]);
@@ -72,6 +75,26 @@ const Homepage = () => {
     }
   }
 
+  const AddToFavourite = (chat) => {
+ 
+     let history = localStorage.getItem("History");
+     
+     if(history){
+       let l_data = JSON.parse(history)
+       setQuestion(l_data)
+
+     }else{
+      const Newarr = [{...History, input}]
+      localStorage.setItem(JSON.stringify(Newarr))
+     }
+    
+     console.log(localStorage)
+  }
+  
+ useEffect(() => {
+   AddToFavourite(chat)
+ }, [chat])
+  
   return (
     <section className='w-[82vw] h-screen relative bg-[#212121]'>
       <Navbar />
@@ -108,7 +131,7 @@ const Homepage = () => {
         <div className='w-full relative flex  justify-center h-[85%]  p-[10px] overflow-y-scroll mt-[50px]'>
           <div className="h-fit w-[65%]  relative flex flex-col gap-3">
             {chat.map((Msg, index) => (
-              <Message msg={Msg} key={index} />
+              <Message msg={Msg} index={index} key={index} />
             ))}
           </div>
         </div>
