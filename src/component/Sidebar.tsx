@@ -2,9 +2,10 @@ import { PanelLeftDashed, Search, CirclePlay , LayoutGrid } from 'lucide-react';
 import chatgpt from "../assets/svg/chatgpt.svg";
 import new_chat from "../assets/svg/new_chat.svg";
 import library from "../assets/svg/library.svg";
+import { useState , useEffect } from 'react';
 
-const Sidebar = () => {
-  return (
+const Sidebar = ():void => {
+   return (
     <section  className='h-screen w-[18vw] bg-[#171717] '>
       <section>
         <div className=" p-2 h-fit flex justify-between items-center text-white">

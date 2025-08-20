@@ -4,12 +4,13 @@ import setting from '../assets/svg/setting.svg'
 import mic from '../assets/svg/mic.svg'
 import { useEffect, useState } from 'react'
 import Message from '../component/Message'
+import { Input } from 'postcss'
 
 const Homepage = () => {
   const [input, setInput] = useState("");
   const [inptbtn, setInptbtn] = useState(false)
   const [answer, setAnswer] = useState("")
-  const [question, setQuestion] = useState([])
+  const [questions, setQuestions] = useState([])
   const [chat, setChat] = useState([])
   const Handleinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
@@ -36,7 +37,7 @@ const Homepage = () => {
     ]
   }
 
-  
+
   const Getrespose = async (): Promise<void> => {
     try {
       const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
@@ -57,7 +58,6 @@ const Homepage = () => {
       if (data) {
         const aiText = data.candidates[0].content.parts[0].text;
         setAnswer(aiText)
-        console.log(aiText)
         setChat((prev) => [...prev, { role: "chatbot", text: aiText }]);
       }
 
@@ -65,36 +65,31 @@ const Homepage = () => {
       console.log(error)
     }
   }
-  
+
   const SendAsk = () => {
     if (input) {
       setChat((prev) => [...prev, { role: "user", text: input }]);
       setInptbtn(true)
       Getrespose()
       setInput("")
+      AddToFavourite()
+    }
+    
+  }
+
+  const AddToFavourite = () => {
+    let history = localStorage.getItem("History")
+    if (history) {
+      let htry = JSON.parse(history)
+      htry = [...htry,input]
+      localStorage.setItem('History',JSON.stringify(htry))
+      
+    }else{
+      localStorage.setItem("History",JSON.stringify([input]))
     }
   }
 
-  const AddToFavourite = (chat) => {
- 
-     let history = localStorage.getItem("History");
-     
-     if(history){
-       let l_data = JSON.parse(history)
-       setQuestion(l_data)
 
-     }else{
-      const Newarr = [{...History, input}]
-      localStorage.setItem(JSON.stringify(Newarr))
-     }
-    
-     console.log(localStorage)
-  }
-  
- useEffect(() => {
-   AddToFavourite(chat)
- }, [chat])
-  
   return (
     <section className='w-[82vw] h-screen relative bg-[#212121]'>
       <Navbar />
@@ -154,7 +149,7 @@ const Homepage = () => {
                     <p className=' p-1 rounded-full hover:bg-[#4e4e4e]'>
                       <img className='w-[18px] ' src={mic} alt="" />
                     </p>
-                    <button type='submit' onClick={SendAsk} className={`p-2 rounded-full cursor-pointer bg-[#636363] ${input.length>0 ? "hover:bg-zinc-500":""}`}>
+                    <button type='submit' onClick={SendAsk} className={`p-2 rounded-full cursor-pointer bg-[#636363] ${input.length > 0 ? "hover:bg-zinc-500" : ""}`}>
                       <ArrowUp className='w-[20px] h-[20px]' />
                     </button>
                   </span>
