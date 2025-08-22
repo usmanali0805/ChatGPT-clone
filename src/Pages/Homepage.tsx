@@ -2,11 +2,13 @@ import { ArrowUp, Plus } from 'lucide-react'
 import Navbar from '../component/Navbar'
 import setting from '../assets/svg/setting.svg'
 import mic from '../assets/svg/mic.svg'
-import { useEffect, useState } from 'react'
+import { useEffect, useState  } from 'react'
 import Message from '../component/Message'
+import {useHistory} from '../context/HistoryContext'
 import { Input } from 'postcss'
 
 const Homepage = () => {
+  const { addToHistory } = useHistory();
   const [input, setInput] = useState("");
   const [inptbtn, setInptbtn] = useState(false)
   const [answer, setAnswer] = useState("")
@@ -73,6 +75,8 @@ const Homepage = () => {
       Getrespose()
       setInput("")
       AddToFavourite()
+      addToHistory(input);
+
     }
     
   }
