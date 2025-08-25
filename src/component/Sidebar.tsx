@@ -1,4 +1,4 @@
-import { PanelLeftDashed, Search, CirclePlay, LayoutGrid } from 'lucide-react';
+import { PanelLeftDashed, Search, CirclePlay, LayoutGrid , Trash } from 'lucide-react';
 import chatgpt from "../assets/svg/chatgpt.svg";
 import new_chat from "../assets/svg/new_chat.svg";
 import library from "../assets/svg/library.svg";
@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { useHistory } from '../context/HistoryContext';
 
 
-const Sidebar = (): void => {
+const Sidebar = ({setQuestion}): string => {
   const { history } = useHistory();
 
   return (
@@ -39,18 +39,22 @@ const Sidebar = (): void => {
         <div className=' flex flex-col'>
           <div className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
             <CirclePlay className='w-[20px] h-[20px]' />
-            <span className='text-[14px]'>New chat</span>
+            <span className='text-[14px]'>Sora</span>
           </div>
           <div className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
             <LayoutGrid className='w-[20px] h-[20px]' />
             <span className='text-[14px]'>Search chats</span>
           </div>
         </div>
-        <h2 className='text-gray-400 p-2 text-[13px]'>Chats</h2>
+        <h2 className='text-gray-400 p-2 text-[13px]'>Questions</h2>
         {history.length === 0 ? (
-          <p>No history yet</p>
+          <p className='text-[15px]'>No history yet</p>
         ) : (
-          history.map((q, i) => <div key={i}>{q}</div>)
+          history.map((q:string, i:number) =>( 
+            <ul className='flex flex-col px-1 py-0.5 cursor-pointer' key={i}>
+              <li onClick={()=> setQuestion(q)} className='text-[13px] text-zinc-200 truncate w-full p-1 rounded-[5px] hover:bg-zinc-700 hover:text-white'>{q}</li>
+            </ul>
+        ))
         )}
       </section>
     </section>

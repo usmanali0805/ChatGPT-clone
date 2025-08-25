@@ -7,7 +7,8 @@ import Message from '../component/Message'
 import {useHistory} from '../context/HistoryContext'
 import { Input } from 'postcss'
 
-const Homepage = () => {
+const Homepage = ({question}) => {
+  console.log(question)
   const { addToHistory } = useHistory();
   const [input, setInput] = useState("");
   const [inptbtn, setInptbtn] = useState(false)
@@ -17,6 +18,7 @@ const Homepage = () => {
   const Handleinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
   }
+
   const apiKey: string = "AIzaSyA4yQ0DdXgt-JEvzlEMtLwJHKzNqttR9PU";
   interface GeminiResponce {
     candidates?: {
@@ -32,15 +34,13 @@ const Homepage = () => {
       {
         parts: [
           {
-            text: `${input}`
+            text: `${question?question:input}`
           }
         ]
       }
     ]
   }
-
-
-  const Getrespose = async (): Promise<void> => {
+  const Getresponse = async (): Promise<void> => {
     try {
       const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
         {
@@ -68,11 +68,20 @@ const Homepage = () => {
     }
   }
 
+  useEffect(() => {
+    if(question.length>0){
+      setChat((prev) => [...prev, { role: "user", text: question }]);
+    Getresponse()
+    setInptbtn(true)
+    }
+    
+  }, [question])
+  
   const SendAsk = () => {
     if (input) {
       setChat((prev) => [...prev, { role: "user", text: input }]);
       setInptbtn(true)
-      Getrespose()
+      Getresponse()
       setInput("")
       AddToFavourite()
       addToHistory(input);
@@ -93,7 +102,7 @@ const Homepage = () => {
     }
   }
 
-
+  console.log(chat)
   return (
     <section className='w-[82vw] h-screen relative bg-[#212121]'>
       <Navbar />
