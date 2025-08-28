@@ -18,8 +18,13 @@ export const HistoryProvider = ({ children }) => {
     localStorage.setItem("History", JSON.stringify(updated));
   };
 
+  const clearHistory = () => {
+    if(!localStorage.getItem("History")) setHistory([])
+  }
+  
+
   return (
-    <HistoryContext.Provider value={{ history, addToHistory }}>
+    <HistoryContext.Provider value={{ history, addToHistory , clearHistory }}>
       {children}
     </HistoryContext.Provider>
   );

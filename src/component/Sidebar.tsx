@@ -1,4 +1,4 @@
-import { PanelLeftDashed, Search, CirclePlay, LayoutGrid , Trash } from 'lucide-react';
+import { PanelLeftDashed, Search, CirclePlay, LayoutGrid, Trash } from 'lucide-react';
 import chatgpt from "../assets/svg/chatgpt.svg";
 import new_chat from "../assets/svg/new_chat.svg";
 import library from "../assets/svg/library.svg";
@@ -6,8 +6,15 @@ import { useState, useEffect } from 'react';
 import { useHistory } from '../context/HistoryContext';
 
 
-const Sidebar = ({setQuestion}): string => {
-  const { history } = useHistory();
+const Sidebar = ({ setQuestion }): string => {
+  const { history , clearHistory } = useHistory();
+  const DeleteQuestions = ():void => {
+    localStorage.removeItem("History")
+    clearHistory()
+    
+  }
+  
+
 
   return (
     <section className='h-screen w-[18vw] bg-[#171717] '>
@@ -46,15 +53,18 @@ const Sidebar = ({setQuestion}): string => {
             <span className='text-[14px]'>Search chats</span>
           </div>
         </div>
-        <h2 className='text-gray-400 p-2 text-[13px]'>Questions</h2>
+        <p className='flex justify-between p-2 items-center'>
+          <h2 className='text-gray-400 text-[13px]'>Questions</h2>
+          <Trash onClick={DeleteQuestions} className='p-1 rounded-[5px] text-zinc-400 hover:bg-zinc-700  hover:text-zinc-200 cursor-pointer' />
+        </p>
         {history.length === 0 ? (
           <p className='text-[15px]'>No history yet</p>
         ) : (
-          history.map((q:string, i:number) =>( 
-            <ul className='flex flex-col px-1 py-0.5 cursor-pointer' key={i}>
-              <li onClick={()=> setQuestion(q)} className='text-[13px] text-zinc-200 truncate w-full p-1 rounded-[5px] hover:bg-zinc-700 hover:text-white'>{q}</li>
+          history.map((q: string, i: number) => (
+            <ul className='flex flex-col px-1 py-0.5 h-full cursor-pointer' key={i}>
+              <li onClick={() => setQuestion(q)} className='text-[13px] text-zinc-200 truncate w-full p-1 rounded-[5px] hover:bg-zinc-700 hover:text-white'>{q}</li>
             </ul>
-        ))
+          ))
         )}
       </section>
     </section>
