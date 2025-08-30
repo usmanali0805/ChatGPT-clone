@@ -8,13 +8,13 @@ import {useHistory} from '../context/HistoryContext'
 import { Input } from 'postcss'
 
 const Homepage = ({question}) => {
-  console.log(question)
   const { addToHistory } = useHistory();
   const [input, setInput] = useState("");
   const [inptbtn, setInptbtn] = useState(false)
   const [answer, setAnswer] = useState("")
   const [questions, setQuestions] = useState([])
   const [chat, setChat] = useState([])
+  const [temporarychat, setTemporarychat] = useState(false)
   const Handleinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
   }
@@ -84,8 +84,8 @@ const Homepage = ({question}) => {
       Getresponse()
       setInput("")
       AddToFavourite()
+      if(!temporarychat)
       addToHistory(input);
-
     }
     
   }
@@ -104,10 +104,13 @@ const Homepage = ({question}) => {
 
   console.log(chat)
   return (
-    <section className='w-[82vw] h-screen relative bg-[#212121]'>
-      <Navbar />
+    <section className="w-[82vw] h-screen relative bg-[#212121]">
+      <Navbar setTemporarychat= {setTemporarychat} temporarychat={temporarychat} />
       {inptbtn == false && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
-        <h1 className='text-[30px]'>What can I help with?</h1>
+        {temporarychat?<div className='flex justify-center items-center w-[30%] flex-col gap-2'>
+          <h1 className='text-[30px] '>Temporary Chat</h1>
+          <p className='text-[15px] text-zinc-400 text-center'>This chat won't appear in history, use or update ChatGPT's memory, or be used to train our models. For safety purposes, we may keep a copy of this chat for up to 30 days.</p>
+        </div>:<h1 className='text-[30px]'>What can I help with?</h1>}
         <div className='w-[65%] h-[95px] p-3 rounded-3xl bg-[#353535]'>
           <label className='flex flex-col justify-between h-full items-center' htmlFor="input_id">
             <input id="input_id" value={input} onChange={Handleinput} className='w-full text-[15px] focus-visible:outline-none' type="text" placeholder='Ask anything' />

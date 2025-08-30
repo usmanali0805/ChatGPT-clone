@@ -2,11 +2,10 @@ import { PanelLeftDashed, Search, CirclePlay, LayoutGrid, Trash } from 'lucide-r
 import chatgpt from "../assets/svg/chatgpt.svg";
 import new_chat from "../assets/svg/new_chat.svg";
 import library from "../assets/svg/library.svg";
-import { useState, useEffect } from 'react';
 import { useHistory } from '../context/HistoryContext';
 
 
-const Sidebar = ({ setQuestion }): string => {
+const Sidebar = ({ setQuestion }) => {
   const { history , clearHistory } = useHistory();
   const DeleteQuestions = ():void => {
     localStorage.removeItem("History")
@@ -14,8 +13,6 @@ const Sidebar = ({ setQuestion }): string => {
     
   }
   
-
-
   return (
     <section className='h-screen w-[18vw] bg-[#171717] '>
       <section>
@@ -58,7 +55,7 @@ const Sidebar = ({ setQuestion }): string => {
           <Trash onClick={DeleteQuestions} className='p-1 rounded-[5px] text-zinc-400 hover:bg-zinc-700  hover:text-zinc-200 cursor-pointer' />
         </p>
         {history.length === 0 ? (
-          <p className='text-[15px]'>No history yet</p>
+          <p className='text-[14px] p-2'>No history yet</p>
         ) : (
           history.map((q: string, i: number) => (
             <ul className='flex flex-col px-1 py-0.5 h-full cursor-pointer' key={i}>
