@@ -5,7 +5,7 @@ import library from "../assets/svg/library.svg";
 import { useHistory } from '../context/HistoryContext';
 
 
-const Sidebar = ({ setQuestion }) => {
+const Sidebar = ({ setQuestion , setNewchat}) => {
   const { history , clearHistory } = useHistory();
   const DeleteQuestions = ():void => {
     localStorage.removeItem("History")
@@ -13,6 +13,11 @@ const Sidebar = ({ setQuestion }) => {
     
   }
   
+  const HandleChat =() => {
+    setNewchat(true)
+  }
+  
+
   return (
     <section className='h-screen w-[18vw] bg-[#171717] '>
       <section>
@@ -25,7 +30,7 @@ const Sidebar = ({ setQuestion }) => {
           </span>
         </div>
         <div className='p-2 flex flex-col  '>
-          <div className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
+          <div onClick={HandleChat} className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
             <img src={new_chat} alt="dfdf" />
             <span className='text-[14px]'>New chat</span>
           </div>

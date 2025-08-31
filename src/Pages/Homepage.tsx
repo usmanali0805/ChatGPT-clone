@@ -2,12 +2,12 @@ import { ArrowUp, Plus } from 'lucide-react'
 import Navbar from '../component/Navbar'
 import setting from '../assets/svg/setting.svg'
 import mic from '../assets/svg/mic.svg'
-import { useEffect, useState  } from 'react'
+import { useEffect, useState } from 'react'
 import Message from '../component/Message'
-import {useHistory} from '../context/HistoryContext'
+import { useHistory } from '../context/HistoryContext'
 import { Input } from 'postcss'
 
-const Homepage = ({question}) => {
+const Homepage = ({ question, newchat , setNewchat }) => {
   const { addToHistory } = useHistory();
   const [input, setInput] = useState("");
   const [inptbtn, setInptbtn] = useState(false)
@@ -34,7 +34,7 @@ const Homepage = ({question}) => {
       {
         parts: [
           {
-            text: `${question?question:input}`
+            text: `${question ? question : input}`
           }
         ]
       }
@@ -69,14 +69,14 @@ const Homepage = ({question}) => {
   }
 
   useEffect(() => {
-    if(question.length>0){
+    if (question.length > 0) {
       setChat((prev) => [...prev, { role: "user", text: question }]);
-    Getresponse()
-    setInptbtn(true)
+      Getresponse()
+      setInptbtn(true)
     }
-    
+
   }, [question])
-  
+
   const SendAsk = () => {
     if (input) {
       setChat((prev) => [...prev, { role: "user", text: input }]);
@@ -84,33 +84,39 @@ const Homepage = ({question}) => {
       Getresponse()
       setInput("")
       AddToFavourite()
-      if(!temporarychat)
-      addToHistory(input);
+      if (!temporarychat)
+        addToHistory(input);
     }
-    
   }
+
+  useEffect(() => {
+    if (newchat == true && chat.length > 0) {
+      setChat([])
+      setNewchat(false)
+    }
+  }, [newchat])
 
   const AddToFavourite = () => {
     let history = localStorage.getItem("History")
     if (history) {
       let htry = JSON.parse(history)
-      htry = [...htry,input]
-      localStorage.setItem('History',JSON.stringify(htry))
-      
-    }else{
-      localStorage.setItem("History",JSON.stringify([input]))
+      htry = [...htry, input]
+      localStorage.setItem('History', JSON.stringify(htry))
+
+    } else {
+      localStorage.setItem("History", JSON.stringify([input]))
     }
   }
 
   console.log(chat)
   return (
     <section className="w-[82vw] h-screen relative bg-[#212121]">
-      <Navbar setTemporarychat= {setTemporarychat} temporarychat={temporarychat} />
-      {inptbtn == false && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
-        {temporarychat?<div className='flex justify-center items-center w-[30%] flex-col gap-2'>
+      <Navbar setTemporarychat={setTemporarychat} temporarychat={temporarychat} />
+      {inptbtn == false  && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
+        {temporarychat ? <div className='flex justify-center items-center w-[30%] flex-col gap-1'>
           <h1 className='text-[30px] '>Temporary Chat</h1>
-          <p className='text-[15px] text-zinc-400 text-center'>This chat won't appear in history, use or update ChatGPT's memory, or be used to train our models. For safety purposes, we may keep a copy of this chat for up to 30 days.</p>
-        </div>:<h1 className='text-[30px]'>What can I help with?</h1>}
+          <p className='text-[13px] text-zinc-400 text-center'>This chat won't appear in history, use or update ChatGPT's memory, or be used to train our models. For safety purposes, we may keep a copy of this chat for up to 30 days.</p>
+        </div> : <h1 className='text-[30px]'>What can I help with?</h1>}
         <div className='w-[65%] h-[95px] p-3 rounded-3xl bg-[#353535]'>
           <label className='flex flex-col justify-between h-full items-center' htmlFor="input_id">
             <input id="input_id" value={input} onChange={Handleinput} className='w-full text-[15px] focus-visible:outline-none' type="text" placeholder='Ask anything' />

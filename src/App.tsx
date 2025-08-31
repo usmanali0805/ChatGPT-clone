@@ -7,12 +7,13 @@ import {HistoryProvider} from './context/HistoryContext'
 
 function App() {
   const [question, setQuestion] = useState('')
+  const [newchat, setNewchat] = useState(false)
   console.log(question)
   return (
     <HistoryProvider>
     <div className = "w-full flex">
-      <Sidebar setQuestion = {setQuestion}/>
-      <Homepage question= {question}/>
+      <Sidebar setNewchat={setNewchat} setQuestion = {setQuestion}/>
+      <Homepage setNewchat={setNewchat} newchat={newchat} question= {question}/>
     </div>
     </HistoryProvider>
   )
