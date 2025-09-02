@@ -110,7 +110,7 @@ const Homepage = ({ question, newchat , setNewchat }) => {
 
   console.log(chat)
   return (
-    <section className="w-[82vw] h-screen relative bg-[#212121]">
+    <section className="w-full h-screen relative bg-[#212121]">
       <Navbar setTemporarychat={setTemporarychat} temporarychat={temporarychat} />
       {inptbtn == false  && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
         {temporarychat ? <div className='flex justify-center items-center w-[30%] flex-col gap-1'>
