@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 const Sidebar = ({ setQuestion, setNewchat }) => {
   const [disablebtn, setDisablebtn] = useState(false)
   const { history, clearHistory } = useHistory();
+  const [sidebtn, setSidebtn] = useState(true)
   const DeleteQuestions = (): void => {
     localStorage.removeItem("History")
     clearHistory()
@@ -20,13 +21,13 @@ const Sidebar = ({ setQuestion, setNewchat }) => {
 
   return (
     <section>
-      <section className='h-screen hidden w-[18vw] bg-[#171717] '>
+      <section className={`h-screen ${sidebtn?"block":"hidden"} w-[18vw] bg-[#171717] `}>
         <section>
           <div className=" p-2 h-fit flex justify-between items-center text-white">
-            <span className='p-1.5 hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
+            <span  className='p-1.5 hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
               <img className='text-white  w-[22px]' src={chatgpt} alt="sfd" />
             </span>
-            <span className='p-1.5 hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
+            <span onClick={()=> setSidebtn(false) } className='p-1.5 hover:bg-[#3d3d3d] cursor-pointer transition-all duration-200 rounded-[6px]'>
               <PanelLeftDashed className='w-[18px] h-[18px] text-gray-300' />
             </span>
           </div>
@@ -71,9 +72,9 @@ const Sidebar = ({ setQuestion, setNewchat }) => {
           )}
         </section>
       </section>
-      <section className='flex flex-col h-full bg-[#202020] border-r-1 border-zinc-700'>
+      <section className={`flex flex-col h-full bg-[#202020] ${sidebtn?"hidden":"block "}  border-r-1 border-zinc-700`}>
         <div className=" p-2 h-fit flex justify-between items-center text-white">
-          <span className='p-1.5 cursor-pointer hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
+          <span onClick={()=> setSidebtn(true) }  className='p-1.5 cursor-pointer hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
             <img className='text-white  w-[22px]' src={chatgpt} alt="sfd" />
           </span>
         </div>

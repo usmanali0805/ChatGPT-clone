@@ -2,10 +2,9 @@ import { ArrowUp, Plus } from 'lucide-react'
 import Navbar from '../component/Navbar'
 import setting from '../assets/svg/setting.svg'
 import mic from '../assets/svg/mic.svg'
-import { useEffect, useState } from 'react'
+import { useEffect, useState , useRef} from 'react'
 import Message from '../component/Message'
 import { useHistory } from '../context/HistoryContext'
-import { Input } from 'postcss'
 
 const Homepage = ({ question, newchat , setNewchat }) => {
   const { addToHistory } = useHistory();
@@ -15,6 +14,7 @@ const Homepage = ({ question, newchat , setNewchat }) => {
   const [questions, setQuestions] = useState([])
   const [chat, setChat] = useState([])
   const [temporarychat, setTemporarychat] = useState(false)
+  const ScrollTop = useRef<HTMLDivElement | null>(null)
   const Handleinput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value)
   }
@@ -61,6 +61,9 @@ const Homepage = ({ question, newchat , setNewchat }) => {
         const aiText = data.candidates[0].content.parts[0].text;
         setAnswer(aiText)
         setChat((prev) => [...prev, { role: "chatbot", text: aiText }]);
+        setTimeout(() => {
+          ScrollTop.current.scrollintoView({behavior:"smooth"})
+        }, 500);
       }
 
     } catch (error) {
@@ -145,7 +148,7 @@ const Homepage = ({ question, newchat , setNewchat }) => {
       </div>}
 
       {inptbtn == true && <section className=' w-full h-screen flex flex-col items-center justify-center'>
-        <div className='w-full relative flex  justify-center h-[85%]  p-[10px] overflow-y-scroll mt-[50px]'>
+        <div ref={ScrollTop}  className='w-full relative flex  justify-center h-[85%]  p-[10px] overflow-y-scroll mt-[50px]'>
           <div className="h-fit w-[65%]  relative flex flex-col gap-3">
             {chat.map((Msg, index) => (
               <Message msg={Msg} index={index} key={index} />
