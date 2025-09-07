@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { stringify } from "postcss";
 
 const Message = ({ msg }) => {
   const [answer, setAnswer] = useState([]);
@@ -6,7 +10,6 @@ const Message = ({ msg }) => {
   function checkHeading(str: string): boolean {
     return /^(\*\*)(.+)\*$/.test(str);
   }
-
 
   // Remove starting and ending **
   const setHeading = (str) => {
@@ -23,6 +26,20 @@ const Message = ({ msg }) => {
       setAnswer(aitext);
     }
   }, [msg]);
+
+  const renderer = {
+    code({node , inline , className , children , ...props}){
+      const match = /language-(\w+)/.exec(className||'');
+      return !inline && match?(
+        <SyntaxHighlighter {...props}
+        language = {match[1]}
+        style = {dark}
+        preTag="div"
+        >{String(children).replace(/\n$/, "")}</SyntaxHighlighter>
+        
+      ):(<code {...props} className={className}>{children}</code>)
+    }
+  }
 
   return (
     <div>
@@ -45,7 +62,7 @@ const Message = ({ msg }) => {
                       : "pl-[5px]"
                   }
                 >
-                  {checkHeading(item) ? setHeading(item) : item }
+                  {checkHeading(item) ? setHeading(item) : <ReactMarkdown components={renderer}>{item}</ReactMarkdown> }
                 </li>
               </ul>
             ))}
