@@ -83,18 +83,7 @@ const Homepage = ({ question, newchat, setNewchat }) => {
 
   }, [question])
 
-  const SendAsk = () => {
-    if (input) {
-      setChat((prev) => [...prev, { role: "user", text: input }]);
-      setInptbtn(true)
-      Getresponse()
-      setInput("")
-      AddToFavourite()
-      if (!temporarychat)
-        addToHistory(input);
-    }
-  }
-
+  
   useEffect(() => {
     if (newchat == true && chat.length > 0) {
       setChat([])
@@ -103,18 +92,31 @@ const Homepage = ({ question, newchat, setNewchat }) => {
   }, [newchat])
 
   const AddToFavourite = () => {
-    let history = localStorage.getItem("History")
+    const history = localStorage.getItem("History")
     if (history) {
       let htry = JSON.parse(history)
-      htry = [...htry, input]
-      localStorage.setItem('History', JSON.stringify(htry))
-
+      console.log(htry.includes(input))
+      if (!htry.includes(input)) {
+        htry = [...htry, input];
+        localStorage.setItem("History", JSON.stringify(htry));
+        addToHistory(input);
+      }       
     } else {
       localStorage.setItem("History", JSON.stringify([input]))
+      addToHistory(input);
+
     }
   }
-
-  console.log(chat)
+  
+  const SendAsk = () => {
+    if (input) {
+      setChat((prev) => [...prev, { role: "user", text: input }]);
+      setInptbtn(true)
+      Getresponse()
+      setInput("")
+      AddToFavourite()
+  }
+  }
   return (
     <section className="w-full h-screen relative bg-[#212121]">
       <Navbar setTemporarychat={setTemporarychat} temporarychat={temporarychat} />

@@ -8,7 +8,6 @@ import {HistoryProvider} from './context/HistoryContext'
 function App() {
   const [question, setQuestion] = useState('')
   const [newchat, setNewchat] = useState(false)
-  console.log(question)
   return (
     <HistoryProvider>
     <div className = "w-full flex">

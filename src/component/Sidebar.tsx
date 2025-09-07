@@ -3,7 +3,7 @@ import chatgpt from "../assets/svg/chatgpt.svg";
 import new_chat from "../assets/svg/new_chat.svg";
 import library from "../assets/svg/library.svg";
 import { useHistory } from '../context/HistoryContext';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const Sidebar = ({ setQuestion, setNewchat }) => {
   const [disablebtn, setDisablebtn] = useState(false)
@@ -12,7 +12,6 @@ const Sidebar = ({ setQuestion, setNewchat }) => {
   const DeleteQuestions = (): void => {
     localStorage.removeItem("History")
     clearHistory()
-
   }
 
   const HandleChat = () => {
