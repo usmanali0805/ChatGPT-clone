@@ -24,7 +24,7 @@ export const HistoryProvider = ({ children }) => {
   
 
   return (
-    <HistoryContext.Provider value={{ history, addToHistory , clearHistory }}>
+    <HistoryContext.Provider value={{ history, addToHistory , clearHistory , setHistory}}>
       {children}
     </HistoryContext.Provider>
   );
