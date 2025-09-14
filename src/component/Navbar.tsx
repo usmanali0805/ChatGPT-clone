@@ -11,7 +11,7 @@ const Navbar = ({setTemporarychat , temporarychat}) => {
   }
   
   return (
-    <div className="text-white bg-[#212121] p-3 px-5 absolute z-50 w-full  top-0 left-0 items-center flex justify-between ">
+    <div className="text-white bg-[#212121] p-3 px-5 absolute z-30 w-full  top-0 left-0 items-center flex justify-between ">
       <span className='flex gap-1 items-center cursor-pointer justify-center'>
         <h3 className='text-[17px] '>ChatGPT</h3>
         <ChevronDownIcon className='w-[20px] h-[20px]' />

@@ -62,7 +62,7 @@ const Sidebar = ({ setQuestion, setNewchat }) => {
             </div>
             <div className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
               <LayoutGrid className='w-[20px] h-[20px]' />
-              <span className='text-[14px]'>Search chats</span>
+              <span className='text-[14px]'>Search question</span>
             </div>
           </div>
           <p className='flex justify-between p-2 items-center'>
