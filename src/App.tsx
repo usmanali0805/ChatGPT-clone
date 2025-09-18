@@ -9,11 +9,12 @@ import Search from './component/Search'
 function App() {
   const [question, setQuestion] = useState('')
   const [newchat, setNewchat] = useState(false)
+  const [srchbtn, setSrchbtn] = useState(false)
   return (
     <HistoryProvider>
       <div className="w-full flex">
-        <Search />
-        <Sidebar setNewchat={setNewchat} setQuestion={setQuestion} />
+        {srchbtn?<Search setSrchbtn={setSrchbtn}/>:""}
+        <Sidebar setSrchbtn={setSrchbtn} setNewchat={setNewchat} setQuestion={setQuestion} />
         <Homepage setNewchat={setNewchat} newchat={newchat} question={question} />
       </div>
     </HistoryProvider>

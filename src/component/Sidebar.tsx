@@ -5,7 +5,7 @@ import library from "../assets/svg/library.svg";
 import { useHistory } from '../context/HistoryContext';
 import { useState } from 'react';
 
-const Sidebar = ({ setQuestion, setNewchat }) => {
+const Sidebar = ({ setQuestion, setNewchat ,setSrchbtn}) => {
   const [disablebtn, setDisablebtn] = useState(false)
   const { history, clearHistory, setHistory } = useHistory();
   const [sidebtn, setSidebtn] = useState(true)
@@ -44,7 +44,7 @@ const Sidebar = ({ setQuestion, setNewchat }) => {
               <img src={new_chat} alt="dfdf" />
               <span className='text-[14px]'>New chat</span>
             </div>
-            <div className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
+            <div  onClick={()=> {setSrchbtn(true)}} className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
               <Search className='w-[20px] h-[20px]' />
               <span className='text-[14px]'>Search chats</span>
             </div>
