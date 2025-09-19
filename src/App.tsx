@@ -13,7 +13,7 @@ function App() {
   return (
     <HistoryProvider>
       <div className="w-full flex">
-        {srchbtn?<Search setSrchbtn={setSrchbtn}/>:""}
+        {srchbtn?<Search setSrchbtn={setSrchbtn} setQuestion={setQuestion}/>:""}
         <Sidebar setSrchbtn={setSrchbtn} setNewchat={setNewchat} setQuestion={setQuestion} />
         <Homepage setNewchat={setNewchat} newchat={newchat} question={question} />
       </div>

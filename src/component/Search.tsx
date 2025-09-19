@@ -1,24 +1,29 @@
 import { X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
-const Search = ({ setSrchbtn }) => {
-  const [questions, setQuestions] = useState([])
+const Search = ({ setSrchbtn ,setQuestion }) => {
+  const [questions, setQuestions] = useState([]);
+  const [state, setstate] = useState([])
   useEffect(() => {
     const data = localStorage.getItem("History")
     const ques = JSON.parse(data || [])
     if (ques) {
       setQuestions(ques || [])
+      setstate(ques)
     }
   }, [])
 
   const HandleFilter = (val) => {
-    let search = questions.filter((e) => {
-      if (e.includes(val.target.value)) {
-        return e;
-      }
-      console.log(search)
-    }
-  )}  
+    let search = questions.filter((e) => e.includes(val.target.value))
+    setstate(search)
+    console.log(search)
+  }  
+
+  const GiveQuestion = (q) => {
+    setSrchbtn(false)
+    setQuestion(q)
+  }
+  
 
   return (
       <section className='fixed z-50 top-0 left-0 w-[100vw] h-[100vh] flex justify-center items-center bg-[#00000054]'>
@@ -29,13 +34,14 @@ const Search = ({ setSrchbtn }) => {
           </div>
           <div className='flex flex-col py-5 px-5.5 gap-1'>
             <p className='text-zinc-400 text-[12px]'>Questions</p>
-            {questions.length > 0 ? questions.map((q, index) => {
-              return <>
-                <p key={index} className='cursor-pointer'>{q}</p>
-              </>
-            }
+            <div  className='flex flex-col gap-1 h-[250px] overflow-y-auto'>
+            {questions.length > 0 ? state.map((q, index) => (
+                <p onClick={()=>GiveQuestion(q)} key={index} className='cursor-pointer'>{q}</p>
+            )
             ) :
-              <p>There is no any question</p>}
+              <p>There is no any question</p>
+              }
+            </div>
           </div>
         </div>
       </section>
