@@ -10,12 +10,13 @@ function App() {
   const [question, setQuestion] = useState('')
   const [newchat, setNewchat] = useState(false)
   const [srchbtn, setSrchbtn] = useState(false)
+  const [margin, setMargin] = useState("")
   return (
     <HistoryProvider>
       <div className="w-full flex">
         {srchbtn?<Search setSrchbtn={setSrchbtn} setQuestion={setQuestion}/>:""}
-        <Sidebar setSrchbtn={setSrchbtn} setNewchat={setNewchat} setQuestion={setQuestion} />
-        <Homepage setNewchat={setNewchat} newchat={newchat} question={question} />
+        <Sidebar setMargin={setMargin} setSrchbtn={setSrchbtn} setNewchat={setNewchat} setQuestion={setQuestion} />
+        <Homepage margin={margin} setNewchat={setNewchat} newchat={newchat} question={question} />
       </div>
     </HistoryProvider>
   )

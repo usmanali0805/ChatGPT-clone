@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from 'react'
 import Message from '../component/Message'
 import { useHistory } from '../context/HistoryContext'
 
-const Homepage = ({ question, newchat, setNewchat }) => {
+const Homepage = ({ question, newchat, setNewchat ,margin }) => {
   const { addToHistory } = useHistory();
   const [input, setInput] = useState("");
   const [inptbtn, setInptbtn] = useState(false)
@@ -118,7 +118,7 @@ const Homepage = ({ question, newchat, setNewchat }) => {
   }
   }
   return (
-    <section className="w-full h-screen relative bg-[#212121]">
+    <section className={`w-full ml-${margin} h-screen relative bg-[#212121]`}>
       <Navbar setTemporarychat={setTemporarychat} temporarychat={temporarychat} />
       {inptbtn == false && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
         {temporarychat ? <div className='flex justify-center items-center w-[30%] flex-col gap-1'>

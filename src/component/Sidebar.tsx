@@ -5,7 +5,7 @@ import library from "../assets/svg/library.svg";
 import { useHistory } from '../context/HistoryContext';
 import { useState } from 'react';
 
-const Sidebar = ({ setQuestion, setNewchat ,setSrchbtn}) => {
+const Sidebar = ({ setQuestion, setNewchat ,setSrchbtn , setMargin}) => {
   const [disablebtn, setDisablebtn] = useState(false)
   const { history, clearHistory, setHistory } = useHistory();
   const [sidebtn, setSidebtn] = useState(true)
@@ -28,8 +28,8 @@ const Sidebar = ({ setQuestion, setNewchat ,setSrchbtn}) => {
 
 
   return (
-    <section>
-      <section className={`h-screen ${sidebtn ? "block" : "hidden"} w-[18vw] bg-[#171717] `}>
+    <section className='relative w-fit h-full'>
+      <section className={`absolute left-0 top-0 z-40 h-screen transform transition-transform duration-500 ease-in-out ${sidebtn ? "translate-x-0" : "-translate-x-full "} ${setMargin("18vw")} w-[18vw] bg-[#171717] `}>
         <section>
           <div className=" p-2 h-fit flex justify-between items-center text-white">
             <span className='p-1.5 hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
@@ -81,19 +81,19 @@ const Sidebar = ({ setQuestion, setNewchat ,setSrchbtn}) => {
           )}
         </section>
       </section>
-      <section className={`flex flex-col h-full bg-[#202020] ${sidebtn ? "hidden" : "block "}  border-r-1 border-zinc-700`}>
+      <section className={`absolute left-0 top-0 flex flex-col h-full bg-[#202020] ${setMargin("0")}  ${sidebtn ? " hidden" : "block "}  border-r-1 border-zinc-700`}>
         <div className=" p-2 h-fit flex justify-between items-center text-white">
           <span onClick={() => setSidebtn(true)} className='p-1.5 cursor-pointer hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
             <img className='text-white  w-[22px]' src={chatgpt} alt="sfd" />
           </span>
         </div>
         <div onClick={HandleChat} className='flex p-2  gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer '>
-          <span className='p-1.5 cursor-pointer hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
+          <span  onClick={HandleChat} className='p-1.5 cursor-pointer hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
             <img src={new_chat} alt="dfdf" />
           </span>
         </div>
         <div className='flex p-2 gap-2 w-full  rounded-[10px] transition-all duration-100 h-fit cursor-pointer '>
-          <span className='p-1.5 cursor-pointer hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
+          <span onClick={()=> {setSrchbtn(true)}}  className='p-1.5 cursor-pointer hover:bg-[#3d3d3d] transition-all duration-200 rounded-[6px]'>
             <Search className='w-[20px] h-[20px]' />
           </span>
         </div>
