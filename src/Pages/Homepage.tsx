@@ -115,10 +115,9 @@ const Homepage = ({ question, newchat, setNewchat ,margin }) => {
       Getresponse()
       setInput("")
       AddToFavourite()
-  }
-  }
+  }}
   return (
-    <section className={`w-full ml-${margin} h-screen relative bg-[#212121]`}>
+    <section className={`w-full transform transition-linear ease-in-out duration-400 ${margin} h-screen relative bg-[#212121]`}>
       <Navbar setTemporarychat={setTemporarychat} temporarychat={temporarychat} />
       {inptbtn == false && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
         {temporarychat ? <div className='flex justify-center items-center w-[30%] flex-col gap-1'>
@@ -154,7 +153,7 @@ const Homepage = ({ question, newchat, setNewchat ,margin }) => {
 
       {inptbtn == true && <section className=' w-full h-screen flex flex-col items-center justify-center'>
         <div className='w-full relative flex  justify-center h-[85%]  p-[10px] overflow-y-scroll mt-[50px]'>
-          <div className="h-fit w-[65%]  relative flex flex-col gap-3">
+          <div className="h-fit sm:w-[65%] w-full p-5 relative flex flex-col gap-3">
             {loader ?
               <div className='w-full flex justify-center ' role="status">
                 <svg aria-hidden="true" className="inline w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -171,7 +170,7 @@ const Homepage = ({ question, newchat, setNewchat ,margin }) => {
           </div>
         </div>
         <div className='w-full flex justify-center h-[15%] bottom-0 bg-[#212121]'>
-          <div className='flex flex-col w-[65%] items-center justify-center'>
+          <div className='flex flex-col sm:w-[65%] w-full p-10 items-center justify-center'>
             <div className='w-full flex flex-col h-[95px] p-3 rounded-3xl bg-[#353535]'>
               <label className='flex flex-col justify-between h-full items-center' htmlFor="input_id">
                 <input id="input_id" value={input} onChange={Handleinput} className='w-full text-[15px] focus-visible:outline-none' type="text" placeholder='Ask anything' />

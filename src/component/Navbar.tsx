@@ -1,8 +1,10 @@
-import { MessageCircleDashed, ChevronDownIcon } from 'lucide-react';
+import { MessageCircleDashed, ChevronDownIcon ,ChartNoAxesGantt} from 'lucide-react';
 import plus from "../assets/svg/plus.svg"
+import { useHistory } from '../context/HistoryContext';
 
 
 const Navbar = ({setTemporarychat , temporarychat}) => {
+  const { setMblbtn} = useHistory ()
   const chat_handle = () => {
     if(temporarychat == true)setTemporarychat(false)
     else{
@@ -12,10 +14,11 @@ const Navbar = ({setTemporarychat , temporarychat}) => {
   
   return (
     <div className="text-white bg-[#212121] p-3 px-5 absolute z-30 w-full  top-0 left-0 items-center flex justify-between ">
-      <span className='flex gap-1 items-center cursor-pointer justify-center'>
+      <span className=' hidden sm:flex gap-1 items-center cursor-pointer justify-center'>
         <h3 className='text-[17px] '>ChatGPT</h3>
         <ChevronDownIcon className='w-[20px] h-[20px]' />
       </span>
+      <span className='sm:hidden '><ChartNoAxesGantt onClick={()=> setMblbtn(true)} className='p-1' /></span>
       {temporarychat?<span><p className='text-[12px] text-zinc-400'>Temporary chat</p></span>:<span className='py-1 px-3 rounded-full cursor-pointer flex gap-1 transition-all duration-200 bg-[#3c3b8b] hover:bg-[#4e4bc9] items-center' >
         <img className="w-[13px] fill-gray-500" src={plus} alt="" />
         <p className='text-[14px]'>Get Plus</p>

@@ -4,6 +4,7 @@ const HistoryContext = createContext();
 
 export const HistoryProvider = ({ children }) => {
   const [history, setHistory] = useState([]);
+  const [mblbtn, setMblbtn] = useState(false)
 
   // Load from localStorage once on mount
   useEffect(() => {
@@ -24,7 +25,7 @@ export const HistoryProvider = ({ children }) => {
   
 
   return (
-    <HistoryContext.Provider value={{ history, addToHistory , clearHistory , setHistory}}>
+    <HistoryContext.Provider value={{ history, addToHistory , clearHistory , setHistory , mblbtn , setMblbtn}}>
       {children}
     </HistoryContext.Provider>
   );

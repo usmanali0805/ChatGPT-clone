@@ -10,7 +10,7 @@ function App() {
   const [question, setQuestion] = useState('')
   const [newchat, setNewchat] = useState(false)
   const [srchbtn, setSrchbtn] = useState(false)
-  const [margin, setMargin] = useState("")
+  const [margin, setMargin] = useState("ml-[18vw]")
   return (
     <HistoryProvider>
       <div className="w-full flex">
