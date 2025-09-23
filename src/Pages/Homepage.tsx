@@ -95,7 +95,6 @@ const Homepage = ({ question, newchat, setNewchat ,margin }) => {
     const history = localStorage.getItem("History")
     if (history) {
       let htry = JSON.parse(history)
-      console.log(htry.includes(input))
       if (!htry.includes(input)) {
         htry = [...htry, input];
         localStorage.setItem("History", JSON.stringify(htry));
@@ -117,7 +116,7 @@ const Homepage = ({ question, newchat, setNewchat ,margin }) => {
       AddToFavourite()
   }}
   return (
-    <section className={`w-full transform transition-linear ease-in-out duration-400 ${margin} h-screen relative bg-[#212121]`}>
+    <section className={`w-full transform transition-linear ease-in-out duration-400 m-0 ${margin} h-screen relative bg-[#212121]`}>
       <Navbar setTemporarychat={setTemporarychat} temporarychat={temporarychat} />
       {inptbtn == false && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
         {temporarychat ? <div className='flex justify-center items-center w-[30%] flex-col gap-1'>
