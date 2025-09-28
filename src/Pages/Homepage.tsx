@@ -6,13 +6,23 @@ import { useEffect, useState, useRef } from 'react'
 import Message from '../component/Message'
 import { useHistory } from '../context/HistoryContext'
 
-const Homepage = ({ question, newchat, setNewchat ,margin }) => {
+interface HomeProps {
+  question:string;
+  newchat: boolean;
+  setNewchat: (e:boolean)=>void;
+  margin:string;
+}
+
+interface chat{
+  role:"chatbot"|"user";
+  text:string;
+}
+
+const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) => {
   const { addToHistory } = useHistory();
-  const [input, setInput] = useState("");
-  const [inptbtn, setInptbtn] = useState(false)
-  const [answer, setAnswer] = useState("")
-  const [questions, setQuestions] = useState([])
-  const [chat, setChat] = useState([])
+  const [input, setInput] = useState<string>("");
+  const [inptbtn, setInptbtn] = useState<boolean>(false)
+  const [chat, setChat] = useState<chat[]>([])
   const [temporarychat, setTemporarychat] = useState(false)
   const ScrollTop = useRef<HTMLDivElement | null>(null)
   const [loader, setLoader] = useState(false)
@@ -60,17 +70,17 @@ const Homepage = ({ question, newchat, setNewchat ,margin }) => {
       }
       const data: GeminiResponce = await response.json();
       if (data) {
-        const aiText = data.candidates[0].content.parts[0].text;
-        setAnswer(aiText)
+        const aiText = data?.candidates[0]?.content?.parts[0]?.text ||"No responce";
         setChat((prev) => [...prev, { role: "chatbot", text: aiText }]);
         setTimeout(() => {
-          ScrollTop.current.scrollIntoView({ behavior: "smooth" })
+          ScrollTop.current?.scrollIntoView({ behavior: "smooth" })
         }, 500);
         setLoader(false)
       }
 
     } catch (error) {
       console.log(error)
+      setLoader(false)
     }
   }
 
@@ -162,8 +172,8 @@ const Homepage = ({ question, newchat, setNewchat ,margin }) => {
                 <span className="sr-only">Loading...</span>
               </div>
               : null}
-            {chat.map((Msg, index) => (
-              <Message msg={Msg} index={index} key={index} />
+            {chat.map((Msg, i:number) => (
+              <Message msg={Msg} key={i} />
             ))}
             <div ref={ScrollTop} />
           </div>

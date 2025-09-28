@@ -2,17 +2,24 @@ import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { stringify } from "postcss";
 
-const Message = ({ msg }) => {
-  const [answer, setAnswer] = useState([]);
-  // Check if string starts and ends with **
+interface Msg{
+  role:"chatbot" | "user";
+  text:string;
+}
+
+interface Msgprops{
+  msg:Msg
+}
+
+const Message:React.FC<Msgprops> = ({msg}) => {
+  const [answer, setAnswer] = useState<string[]>([]);
+
   function checkHeading(str: string): boolean {
-    return /^(\*\*)(.+)\*$/.test(str);
+    return /^(\*\*)(.+)(\*)$/.test(str);
   }
 
-  // Remove starting and ending **
-  const setHeading = (str) => {
+  const setHeading = (str:string) => {
     return str.replace(/^(\*\*)(.+)(\*)$/, "$2");
   };
 
@@ -21,14 +28,14 @@ const Message = ({ msg }) => {
       const arr = msg.text;
       const aitext = arr
         .split("* ")
-        .map((item) => item.trim())
-        .filter((item) => item.length > 0);
+        .map((item:string) => item.trim())
+        .filter((item:string) => item.length > 0);
       setAnswer(aitext);
     }
   }, [msg]);
 
   const renderer = {
-    code({node , inline , className , children , ...props}){
+    code({ inline , className , children , ...props}:any){
       const match = /language-(\w+)/.exec(className||'');
       return !inline && match?(
         <SyntaxHighlighter {...props}

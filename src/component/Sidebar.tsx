@@ -3,11 +3,17 @@ import chatgpt from "../assets/svg/chatgpt.svg";
 import new_chat from "../assets/svg/new_chat.svg";
 import library from "../assets/svg/library.svg";
 import { useHistory } from '../context/HistoryContext';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const Sidebar = ({ setQuestion, setNewchat, setSrchbtn, setMargin }) => {
-  const [disablebtn, setDisablebtn] = useState(false)
-  const { history, clearHistory, setHistory , mblbtn , setMblbtn} = useHistory();
+interface SlideProps {
+  setQuestion: (q:string)=> void;
+  setNewchat: (v:boolean)=> void;
+  setSrchbtn: (v:boolean)=>void;
+  setMargin: (p:string)=> void;
+}
+
+const Sidebar: React.FC<SlideProps> = ({ setQuestion, setNewchat, setSrchbtn, setMargin }) => {
+  const { history, clearHistory, setHistory, mblbtn, setMblbtn } = useHistory();
   const [sidebtn, setSidebtn] = useState(true)
   const DeleteQuestions = (): void => {
     localStorage.removeItem("History")
@@ -81,7 +87,7 @@ const Sidebar = ({ setQuestion, setNewchat, setSrchbtn, setMargin }) => {
             ) : (
               history.map((q: string, i: number) => (
                 <ul className='flex items-center  px-1 py-0.5 h-full cursor-pointer' key={i}>
-                  <li onClick={() => setQuestion(q)} className={`text-[13px] truncate w-full p-1 rounded-[5px] ${disablebtn ? "text-zinc-900 disabled" : "text-zinc-350 hover:bg-zinc-700 hover:text-white enabled"}`}>{q}</li>
+                  <li onClick={() => setQuestion(q)} className={`text-[13px] truncate w-full p-1 rounded-[5px] text-zinc-300  text-zinc-350 hover:bg-zinc-700 hover:text-white`}>{q}</li>
                   <Trash onClick={() => RemoveQuestion(q)} className='p-1 rounded-[5px] text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300' />
                 </ul>
               ))
@@ -120,7 +126,7 @@ const Sidebar = ({ setQuestion, setNewchat, setSrchbtn, setMargin }) => {
 
 
       {/* Mobile Sidebar */}
-      <section className={`w-[55vw] sm:hidden flex flex-col fixed top-0 left-0 bg-[#171717] h-full z-50 transform transition-transform duration-500 ease-in-out ${mblbtn ? "translate-x-0" : "-translate-x-full "} bg-[#171717]  `}>
+      <section className={`w-[55vw] sm:hidden flex flex-col fixed top-0 left-0 bg-[#171717] h-full z-50 transform transition-transform duration-500 ease-in-out ${mblbtn ? "translate-x-0" : "-translate-x-full "}`}>
         <section className="w-full h-screen ">
           <section>
             <div className=" p-2 h-fit w-full flex justify-between items-center text-white">
@@ -139,8 +145,10 @@ const Sidebar = ({ setQuestion, setNewchat, setSrchbtn, setMargin }) => {
                 <img src={new_chat} alt="dfdf" />
                 <span className='text-[14px]'>New chat</span>
               </div>
-              <div onClick={() => { setSrchbtn(true); 
-                setMblbtn(false) }} className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
+              <div onClick={() => {
+                setSrchbtn(true);
+                setMblbtn(false)
+              }} className='flex p-2 gap-2 w-full rounded-[10px] transition-all duration-100 h-fit cursor-pointer hover:bg-[#303030]'>
                 <Search className='w-[20px] h-[20px]' />
                 <span className='text-[14px]'>Search chats</span>
               </div>
@@ -170,7 +178,7 @@ const Sidebar = ({ setQuestion, setNewchat, setSrchbtn, setMargin }) => {
             ) : (
               history.map((q: string, i: number) => (
                 <ul className='flex items-center  px-1 py-0.5 h-full cursor-pointer' key={i}>
-                  <li onClick={() => {setQuestion(q);setMblbtn(false)}} className={`text-[13px] truncate w-full p-1 rounded-[5px] ${disablebtn ? "text-zinc-900 disabled" : "text-zinc-350 hover:bg-zinc-700 hover:text-white enabled"}`}>{q}</li>
+                  <li onClick={() => { setQuestion(q); setMblbtn(false) }} className={`text-[13px] truncate w-full p-1 rounded-[5px] text-zinc-300 text-zinc-350 hover:bg-zinc-700 hover:text-white`}>{q}</li>
                   <Trash onClick={() => RemoveQuestion(q)} className='p-1 rounded-[5px] text-zinc-500 hover:bg-zinc-700 hover:text-zinc-300' />
                 </ul>
               ))
