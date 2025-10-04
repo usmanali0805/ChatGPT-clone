@@ -7,18 +7,18 @@ import Message from '../component/Message'
 import { useHistory } from '../context/HistoryContext'
 
 interface HomeProps {
-  question:string;
+  question: string;
   newchat: boolean;
-  setNewchat: (e:boolean)=>void;
-  margin:string;
+  setNewchat: (e: boolean) => void;
+  margin: string;
 }
 
-interface chat{
-  role:"chatbot"|"user";
-  text:string;
+interface chat {
+  role: "chatbot" | "user";
+  text: string;
 }
 
-const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) => {
+const Homepage: React.FC<HomeProps> = ({ question, newchat, setNewchat, margin }) => {
   const { addToHistory } = useHistory();
   const [input, setInput] = useState<string>("");
   const [inptbtn, setInptbtn] = useState<boolean>(false)
@@ -40,18 +40,18 @@ const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) 
       }
     }
   }
-  const body = {
-    contents: [
-      {
-        parts: [
-          {
-            text: `${question ? question : input}`
-          }
-        ]
-      }
-    ]
-  }
   const Getresponse = async (): Promise<void> => {
+    const body = {
+      contents: [
+        {
+          parts: [
+            {
+              text: `${question ? question : input}`
+            }
+          ]
+        }
+      ]
+    }
     setLoader(true)
     try {
       const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
@@ -70,7 +70,7 @@ const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) 
       }
       const data: GeminiResponce = await response.json();
       if (data) {
-        const aiText = data?.candidates[0]?.content?.parts[0]?.text ||"No responce";
+        const aiText =data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
         setChat((prev) => [...prev, { role: "chatbot", text: aiText }]);
         setTimeout(() => {
           ScrollTop.current?.scrollIntoView({ behavior: "smooth" })
@@ -93,7 +93,7 @@ const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) 
 
   }, [question])
 
-  
+
   useEffect(() => {
     if (newchat == true && chat.length > 0) {
       setChat([])
@@ -109,14 +109,14 @@ const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) 
         htry = [...htry, input];
         localStorage.setItem("History", JSON.stringify(htry));
         addToHistory(input);
-      }       
+      }
     } else {
       localStorage.setItem("History", JSON.stringify([input]))
       addToHistory(input);
 
     }
   }
-  
+
   const SendAsk = () => {
     if (input) {
       setChat((prev) => [...prev, { role: "user", text: input }]);
@@ -124,16 +124,18 @@ const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) 
       Getresponse()
       setInput("")
       AddToFavourite()
-  }}
+    }
+    else alert("Please write something!")
+  }
   return (
     <section className={`w-full transform transition-linear ease-in-out duration-400 m-0 ${margin} h-screen relative bg-[#212121]`}>
       <Navbar setTemporarychat={setTemporarychat} temporarychat={temporarychat} />
       {inptbtn == false && <div className='w-full h-full flex flex-col gap-6 justify-center items-center'>
-        {temporarychat ? <div className='flex justify-center items-center w-[30%] flex-col gap-1'>
-          <h1 className='text-[30px] '>Temporary Chat</h1>
-          <p className='text-[13px] text-zinc-400 text-center'>This chat won't appear in history, use or update ChatGPT's memory, or be used to train our models. For safety purposes, we may keep a copy of this chat for up to 30 days.</p>
+        {temporarychat ? <div className='flex justify-center items-center w-[50%] sm:w-[30%] flex-col gap-1'>
+          <h1 className='sm:text-[30px] text-[25px]'>Temporary Chat</h1>
+          <p className='sm:text-[13px] text-[8px] text-zinc-400 text-center'>This chat won't appear in history, use or update ChatGPT's memory, or be used to train our models. For safety purposes, we may keep a copy of this chat for up to 30 days.</p>
         </div> : <h1 className='text-[30px]'>What can I help with?</h1>}
-        <div className='w-[65%] h-[95px] p-3 rounded-3xl bg-[#353535]'>
+        <div className='w-[80%] sm:w-[60%] flex flex-col h-[95px] p-3 rounded-3xl bg-[#353535]'>
           <label className='flex flex-col justify-between h-full items-center' htmlFor="input_id">
             <input id="input_id" value={input} onChange={Handleinput} className='w-full text-[15px] focus-visible:outline-none' type="text" placeholder='Ask anything' />
             <div className=' flex items-center justify-between w-full'>
@@ -150,7 +152,7 @@ const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) 
                 <p className=' p-1 rounded-full hover:bg-[#4e4e4e]'>
                   <img className='w-[18px] ' src={mic} alt="" />
                 </p>
-                <button type='submit' onClick={SendAsk} className='p-2 rounded-full bg-[#636363]'>
+                <button type='submit' onClick={SendAsk} className={`p-2 rounded-full cursor-pointer bg-[#636363] ${input.length > 0 ? "hover:bg-zinc-500" : ""}`}>
                   <ArrowUp className='w-[20px] h-[20px]' />
                 </button>
               </span>
@@ -172,7 +174,7 @@ const Homepage:React.FC<HomeProps>= ({ question, newchat, setNewchat ,margin }) 
                 <span className="sr-only">Loading...</span>
               </div>
               : null}
-            {chat.map((Msg, i:number) => (
+            {chat.map((Msg, i: number) => (
               <Message msg={Msg} key={i} />
             ))}
             <div ref={ScrollTop} />

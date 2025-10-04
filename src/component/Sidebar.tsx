@@ -3,7 +3,7 @@ import chatgpt from "../assets/svg/chatgpt.svg";
 import new_chat from "../assets/svg/new_chat.svg";
 import library from "../assets/svg/library.svg";
 import { useHistory } from '../context/HistoryContext';
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 
 interface SlideProps {
   setQuestion: (q:string)=> void;
@@ -32,6 +32,15 @@ const Sidebar: React.FC<SlideProps> = ({ setQuestion, setNewchat, setSrchbtn, se
       localStorage.setItem("History", JSON.stringify(questions));
     }
   }
+
+  useEffect(() => {
+  if (window.innerWidth >= 640) {
+    setMargin("sm:ml-[18vw]");
+  } else {
+    setMargin("");
+  }
+}, []);
+
 
   return (
     <>
