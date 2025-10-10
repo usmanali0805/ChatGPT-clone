@@ -14,7 +14,7 @@ interface SlideProps {
 
 const Sidebar: React.FC<SlideProps> = ({ setQuestion, setNewchat, setSrchbtn, setMargin }) => {
   const { history, clearHistory, setHistory, mblbtn, setMblbtn } = useHistory();
-  const [sidebtn, setSidebtn] = useState(true)
+  const [sidebtn, setSidebtn] = useState<boolean>(true)
   const DeleteQuestions = (): void => {
     localStorage.removeItem("History")
     clearHistory()

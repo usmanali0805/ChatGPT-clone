@@ -70,7 +70,7 @@ const Homepage: React.FC<HomeProps> = ({ question, newchat, setNewchat, margin }
       }
       const data: GeminiResponce = await response.json();
       if (data) {
-        const aiText =data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+        const aiText = (data as any)?.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
         setChat((prev) => [...prev, { role: "chatbot", text: aiText }]);
         setTimeout(() => {
           ScrollTop.current?.scrollIntoView({ behavior: "smooth" })
